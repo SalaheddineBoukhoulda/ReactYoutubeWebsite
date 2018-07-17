@@ -1,9 +1,9 @@
 import React,{Component} from 'react';
 import ReactDOM from 'react-dom';
 import SearchBar from './components/search_bar';
-//import VideoList from './components/video_list';
-import YSearch from 'youtube-api-search';
 import VideoList from './components/video_list';
+import VideoDetails from './components/video_details';
+import YSearch from 'youtube-api-search';
 
 const API_KEY = 'AIzaSyAjYICaM48RA5slVzbGVrkOMS_-WRyG46c';
 
@@ -14,7 +14,7 @@ class App extends Component {
         super(props);
         this.state = { videos : []};
         //Youtube query fetch
-        YSearch({key:API_KEY,term:'football'},(videos) => {
+        YSearch({key:API_KEY,term:'Cheb Khaled'},(videos) => {
             this.setState({videos});
         });
     }
@@ -22,6 +22,7 @@ class App extends Component {
     return(
         <div>
         <SearchBar />
+        <VideoDetails video={this.state.videos[0]} />
         <VideoList videos={this.state.videos} />
         </div>
     )
