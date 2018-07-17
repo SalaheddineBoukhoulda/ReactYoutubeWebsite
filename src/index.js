@@ -12,18 +12,27 @@ const API_KEY = 'AIzaSyAjYICaM48RA5slVzbGVrkOMS_-WRyG46c';
 class App extends Component {
     constructor(props){
         super(props);
-        this.state = { videos : []};
+        this.state = { 
+            videos : [],
+            selectedVideo : null
+        };
         //Youtube query fetch
-        YSearch({key:API_KEY,term:'Cheb Khaled'},(videos) => {
-            this.setState({videos});
+        YSearch({key:API_KEY,term:'CampusFrance'},(videos) => {
+            this.setState({
+                videos : videos,
+                selectedVideo : videos[0]
+            });
         });
     }
     render(){
     return(
         <div>
         <SearchBar />
-        <VideoDetails video={this.state.videos[0]} />
-        <VideoList videos={this.state.videos} />
+        <VideoDetails video={this.state.selectedVideo} />
+        <VideoList
+        onVideoSelect={selectedVideo => this.setState({selectedVideo})}
+        videos={this.state.videos} 
+        />
         </div>
     )
     }
