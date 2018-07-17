@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import ReactDOM from 'react-dom';
+import _ from 'lodash';
 import SearchBar from './components/search_bar';
 import VideoList from './components/video_list';
 import VideoDetails from './components/video_details';
@@ -17,17 +18,23 @@ class App extends Component {
             selectedVideo : null
         };
         //Youtube query fetch
-        YSearch({key:API_KEY,term:'CampusFrance'},(videos) => {
+        this.videoSearch('football');
+    }
+
+    videoSearch(term){
+        YSearch({key:API_KEY,term: term},(videos) => {
             this.setState({
                 videos : videos,
                 selectedVideo : videos[0]
             });
         });
     }
+
     render(){
+    const delayedVideoSearch = _.debounce(term => this.videoSearch(term),300);
     return(
         <div>
-        <SearchBar />
+        <SearchBar onVideoSearch={delayedVideoSearch}/>
         <VideoDetails video={this.state.selectedVideo} />
         <VideoList
         onVideoSelect={selectedVideo => this.setState({selectedVideo})}
